@@ -15,10 +15,10 @@ export default function SettingsScreen() {
             // Sign-out successful.
             navigation.navigate('Login')
             console.log('Sign Out');
-          }).catch((error) => {
+        }).catch((error) => {
             // An error happened.
             navigation.navigate('Settings')
-          });
+        });
     };
 
     const handleEditProfile = () => {
@@ -29,6 +29,12 @@ export default function SettingsScreen() {
             <TopTab page={'Settings'} />
             <TouchableOpacity style={styles.button} onPress={handleEditProfile}>
                 <Text style={styles.buttonText}>Edit Profile</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} >
+                <Text style={styles.buttonText}>Add Description</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} >
+                <Text style={styles.buttonText}>Add Profile Pic</Text>
             </TouchableOpacity>
 
 
@@ -51,8 +57,8 @@ const styles = StyleSheet.create({
         padding: 12,
         borderRadius: 5,
         marginVertical: 10,
-        borderColor:'#fff',
-        borderWidth:1,
+        borderColor: '#fff',
+        borderWidth: 1,
     },
     buttonText: {
         color: '#fff',

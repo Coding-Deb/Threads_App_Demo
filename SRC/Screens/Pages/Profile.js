@@ -9,7 +9,8 @@ const height = Dimensions.get('screen').height;
 const width = Dimensions.get('screen').width;
 
 export default function Profile() {
-  const [email, setEmail] = useState('');
+  // const [email, setEmail] = useState('');
+  const [data, setData] = useState('');
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -17,7 +18,8 @@ export default function Profile() {
         // https://firebase.google.com/docs/reference/js/auth.user
         const uid = user.uid;
         const email = user.email;
-        setEmail(email)
+        const displayName = user.displayName
+        setData(displayName ? displayName : email)
         console.log(uid);
         // ...
       } else {
@@ -41,23 +43,13 @@ export default function Profile() {
       <TopTab page={'Profile'} />
 
       <View style={styles.profileContainer}>
-        <Text style={styles.text}>#{email}</Text>
+        <Text style={styles.text}>#{data}</Text>
 
         {/* Follow and Following */}
         <View style={styles.followContainer}>
           <Text style={styles.followText}>Followers: 100</Text>
           <Text style={styles.followText}>Following: 50</Text>
         </View>
-
-        
-        {/* <TouchableOpacity style={styles.button} onPress={handleEditProfile}>
-          <Text style={styles.buttonText}>Edit Profile</Text>
-        </TouchableOpacity>
-
-       
-        <TouchableOpacity style={styles.button} onPress={handleLogout}>
-          <Text style={styles.buttonText}>Logout</Text>
-        </TouchableOpacity>  */}
       </View>
 
       <BottomTab page={'Profile'} />

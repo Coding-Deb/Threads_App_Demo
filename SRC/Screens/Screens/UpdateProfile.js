@@ -1,9 +1,13 @@
-import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import TopTab from '../../Components/TopTab';
 import { useNavigation } from '@react-navigation/native';
 const height = Dimensions.get('screen').height;
 const width = Dimensions.get('screen').width;
+import { auth } from '../../Firebase/firebase'
+import { updateProfile } from 'firebase/auth';
+
+const user = auth.currentUser
 
 export default function UpdateProfile() {
     const navigation = useNavigation()
@@ -11,26 +15,34 @@ export default function UpdateProfile() {
     const [email, setEmail] = useState('');
 
     const handleEditProfile = () => {
-        // Implement your edit profile logic here
-        console.log('Edit Profile pressed');
+       updateProfile(user,{
+        displayName: displayName,
+       }).then(()=>{
+        console.log('Profile Updated!!');
+       })
     };
     return (
         <View style={styles.container}>
             <TopTab page={'UpdateProfile'} />
             <TextInput
-            placeholder='Enter New DisplayName'
-            style={styles.input}
-            placeholderTextColor='#fff'
-            value={displayName}
-            onChangeText={(txt)=>{setDisplayName(txt)}}
+                placeholder='Enter New DisplayName'
+                style={styles.input}
+                placeholderTextColor='#fff'
+                value={displayName}
+                onChangeText={(txt) => { setDisplayName(txt) }}
             />
             <TextInput
-             placeholder='Enter New Email'
-             style={styles.input}
-             placeholderTextColor='#fff'
-             value={email}
-             onChangeText={(txt)=>{setEmail(txt)}}
+                placeholder='Enter New Email'
+                style={styles.input}
+                placeholderTextColor='#fff'
+                value={email}
+                onChangeText={(txt) => { setEmail(txt) }}
             />
+            <Pressable style={styles.button} onPress={handleEditProfile}>
+                <Text style={styles.buttonText}>
+                    Submit
+                </Text>
+            </Pressable>
         </View>
     )
 }
@@ -42,20 +54,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#28282B'
     },
-    button: {
-        width: width - 20,
-        padding: 12,
-        borderRadius: 5,
-        marginVertical: 10,
-        borderColor:'#fff',
-        borderWidth:1,
-    },
-    buttonText: {
-        color: '#fff',
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    input:{
+    input: {
         width: width - 40,
         height: 40,
         borderBottomColor: '#fff',
@@ -63,7 +62,19 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         color: '#fff',
         padding: 10,
-        fontSize:17,
-        fontWeight:'700'
-    }
+        fontSize: 17,
+        fontWeight: '700'
+    },
+    button: {
+        backgroundColor: '#fff',
+        width: width / 2,
+        padding: 12,
+        borderRadius: 5,
+        marginVertical: 10,
+      },
+      buttonText: {
+        color: '#28282B',
+        fontWeight: 'bold',
+        textAlign: 'center',
+      },
 })
